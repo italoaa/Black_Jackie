@@ -44,12 +44,7 @@ impl Game {
     }
 
     pub fn state(&self) {
-        println!("dealer:");
-        println!("hand:{:?}", self.dealer_hand.iter());
-        println!("score:{:?}", self.dealer_score);
-        println!("player:");
-        println!("hand:{:?}", self.player_hand.iter());
-        println!("score:{:?}", self.player_score);
+        todo!();
     }
 
     pub fn prompt(&self) -> String {
@@ -67,7 +62,7 @@ impl Game {
         }
     }
     //draw for the player
-    pub fn draw(&mut self) {
+    pub fn drawp(&mut self) {
         self.player_hand.push(Card::random_card());
         self.player_score = Game::score(self.player_hand.clone());
     }
