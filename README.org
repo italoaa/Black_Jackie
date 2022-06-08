@@ -7,6 +7,9 @@
 #+attr_org: :width 300px
 [[file:files/20220608-105511_screenshot.png]]
 
+#+begin_quote
+This is still in progress. There has to be work done for more than two player games plus a nicer ui for the players.
+#+end_quote
 * Installation
 In order to use this game with a friend you will have to git clone the repo and build from source
 #+begin_src sh
