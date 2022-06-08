@@ -1,0 +1,14 @@
+#+TITLE: Multiplayer BlackJack
+#+DESCRIPTION: This is a multiplayer implementation of black jack in rust. This works with the help of tokio to manage the async runtime plus the thread handling.
+#+AUTHOR: Italo Amaya
+
+* Preview
+#+DOWNLOADED: screenshot @ 2022-06-08 10:55:11
+#+attr_org: :width 300px
+[[file:files/20220608-105511_screenshot.png]]
+
+* Installation
+In order to use this game with a friend you will have to git clone the repo and build from source
+#+begin_src sh
+git clone $this_repo
+#+end_src
