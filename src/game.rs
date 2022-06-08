@@ -1,23 +1,16 @@
-use crate::deck::Card;
-use crate::deck::Rank;
-use std::io::{self, Write};
-
 pub struct Game {
-    pub dealer_hand: Vec<Card>,
     pub player_hand: Vec<Card>,
-    pub dealer_score: u8,
     pub player_score: u8,
+    pub busted: bool,
 }
 
 impl Game {
     pub fn new() -> Game {
-        let dealerhand = vec![Card::random_card(), Card::random_card()];
         let playerhand = vec![Card::random_card(), Card::random_card()];
         Game {
-            dealer_hand: dealerhand.clone(),
             player_hand: playerhand.clone(),
-            dealer_score: Game::score(dealerhand),
             player_score: Game::score(playerhand),
+            busted: false,
         }
     }
 
@@ -43,33 +36,77 @@ impl Game {
         return score;
     }
 
-    pub fn state(&self) {
-        todo!();
-    }
-
-    pub fn prompt(&self) -> String {
-        loop {
-            println!(
-                "your score is {}, Draw or stand(d or s): ",
-                self.player_score
-            );
-            println!("# ");
-            io::stdout().flush().expect("cant flush");
-            let mut answer: String = String::new();
-            io::stdin().read_line(&mut answer).expect("cant read line");
-            let answer = answer.trim();
-            return answer.to_string();
-        }
-    }
     //draw for the player
     pub fn drawp(&mut self) {
         self.player_hand.push(Card::random_card());
         self.player_score = Game::score(self.player_hand.clone());
     }
+}
 
-    //draw for the dealer
-    pub fn drawd(&mut self) {
-        self.dealer_hand.push(Card::random_card());
-        self.dealer_score = Game::score(self.dealer_hand.clone());
+use rand::Rng;
+
+#[derive(Debug, Clone)]
+pub struct Card {
+    pub rank: Rank,
+    pub suit: Suit,
+}
+
+#[derive(Debug, Clone)]
+pub enum Rank {
+    ACE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    TEN,
+    JACK,
+    QUEEN,
+    KING,
+}
+#[derive(Debug, Clone)]
+pub enum Suit {
+    Clubs,
+    Diamonds,
+    Hearts,
+    Spades,
+}
+
+impl Card {
+    pub fn new(rank: Rank, suit: Suit) -> Card {
+        Card {
+            rank: rank,
+            suit: suit,
+        }
+    }
+
+    pub fn random_card() -> Card {
+        let rank = match rand::thread_rng().gen_range(1..=13) {
+            1 => Rank::ACE,
+            2 => Rank::TWO,
+            3 => Rank::THREE,
+            4 => Rank::FOUR,
+            5 => Rank::FIVE,
+            6 => Rank::SIX,
+            7 => Rank::SEVEN,
+            8 => Rank::EIGHT,
+            9 => Rank::NINE,
+            10 => Rank::TEN,
+            11 => Rank::JACK,
+            12 => Rank::QUEEN,
+            13 => Rank::KING,
+            _ => panic!("not in range"),
+        };
+        let suit = match rand::thread_rng().gen_range(1..=4) {
+            1 => Suit::Clubs,
+            2 => Suit::Diamonds,
+            3 => Suit::Hearts,
+            4 => Suit::Spades,
+            _ => panic!("not in range"),
+        };
+        Card::new(rank, suit)
     }
 }
