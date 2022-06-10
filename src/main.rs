@@ -3,6 +3,7 @@ use tokio::net::TcpListener;
 use tokio::sync::Mutex;
 use tokio::time::{sleep, Duration};
 
+use std::net::TcpStream;
 use std::sync::Arc;
 
 mod game;
@@ -66,6 +67,10 @@ impl State {
         }
         return true;
     }
+}
+
+struct Connection {
+    stream: TcpStream,
 }
 
 #[tokio::main]
@@ -145,12 +150,12 @@ async fn main() {
                 //
                 // ask to stand or hit
                 let cards: String = format!(
-                    "You have a hand of: {:?}\nThat hand has a value of {}\n",
+                    "[*] You have a hand of: {:?}\n[*] That hand has a value of {}\n",
                     game.player_hand, game.player_score
                 );
                 writer.write(cards.as_bytes()).await.unwrap();
                 writer
-                    .write(b"Do you wish to Hit(h) or Stand(s)\n> ")
+                    .write(b"\n[*] Do you wish to Hit(h) or Stand(s)\n> ")
                     .await
                     .unwrap();
                 line.clear();
