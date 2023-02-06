@@ -36,3 +36,7 @@ This example is how to connect to the default port. When the server is running l
 #+begin_src sh
 nc 127.0.0.1 6000
 #+end_src
+
+* Dependencies
+- [[https://tokio.rs/][tokio]]
+- [[https://github.com/italoaa/Carder][Carder]]
