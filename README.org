@@ -3,13 +3,10 @@
 #+AUTHOR: Italo Amaya
 
 * Preview
-#+DOWNLOADED: screenshot @ 2022-06-08 10:55:11
+#+DOWNLOADED: screenshot @ 2023-02-06 19:53:41
 #+attr_org: :width 300px
-[[file:files/20220608-105511_screenshot.png]]
+[[file:files/20230206-195341_screenshot.png]]
 
-#+begin_quote
-This is still in progress. There has to be work done for more than two player games plus a nicer ui for the players.
-#+end_quote
 * Installation
 In order to use this game with a friend you will have to git clone the repository
 #+begin_src sh

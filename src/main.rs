@@ -6,6 +6,8 @@ use tokio::time::{sleep, Duration};
 use std::net::TcpStream;
 use std::sync::Arc;
 
+use black_jackie::*;
+
 mod game;
 
 use game::Game;
@@ -50,7 +52,6 @@ impl State {
     }
     fn heighest_score(&self, score: u8, id: usize) -> bool {
         if id == 1000 {
-            println!("{:?}", self.scores);
             return false;
         }
         for value in self.scores.iter() {
@@ -100,7 +101,6 @@ async fn main() {
                     writer.write(b"You are ready!\n").await.unwrap();
                     let mut state = state.lock().await;
                     state.set_ready();
-                    println!("{} : {:?}", state.all_ready(), state.ready);
                     if !state.all_ready() {
                         writer.write(b"Wait for other player").await.unwrap();
                         waiting = true;
@@ -149,13 +149,15 @@ async fn main() {
                 // display the cards of the player
                 //
                 // ask to stand or hit
-                let cards: String = format!(
-                    "[*] You have a hand of: {:?}\n[*] That hand has a value of {}\n",
-                    game.player_hand, game.player_score
-                );
+                let mut display_hand = Hand::new();
+                for card in &game.player_hand {
+                    let mut display_card = Card::new(card.value() as u32, card.suit);
+                    display_hand.add_card(display_card);
+                }
+                let cards: String = format!("[*] Your hand:\n{}\n", display_hand);
                 writer.write(cards.as_bytes()).await.unwrap();
                 writer
-                    .write(b"\n[*] Do you wish to Hit(h) or Stand(s)\n> ")
+                    .write(b"\n[*] Do you wish to Hit(h) or Stand(s) (Invalid Input will be taken as a Stand)\n> ")
                     .await
                     .unwrap();
                 line.clear();
@@ -189,7 +191,7 @@ async fn main() {
                         drop(state);
                         continue;
                     }
-                } else {
+                } else if line.trim_end() == "s" {
                     // stand
                     writer.write(b"Stand\n").await.unwrap();
                     let mut state = state.lock().await;
@@ -203,6 +205,7 @@ async fn main() {
                     }
                     drop(state);
                     break;
+                } else {
                 }
             }
             // Both clients play until they stand

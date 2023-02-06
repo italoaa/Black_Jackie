@@ -1,3 +1,5 @@
+use black_jackie::Suit;
+
 pub struct Game {
     pub player_hand: Vec<Card>,
     pub player_score: u8,
@@ -67,13 +69,6 @@ pub enum Rank {
     QUEEN,
     KING,
 }
-#[derive(Debug, Clone)]
-pub enum Suit {
-    Clubs,
-    Diamonds,
-    Hearts,
-    Spades,
-}
 
 impl Card {
     pub fn new(rank: Rank, suit: Suit) -> Card {
@@ -81,6 +76,24 @@ impl Card {
             rank: rank,
             suit: suit,
         }
+    }
+
+    pub fn value(&self) -> u8 {
+        return match self.rank {
+            Rank::ACE => 1,
+            Rank::TWO => 2,
+            Rank::THREE => 3,
+            Rank::FOUR => 4,
+            Rank::FIVE => 5,
+            Rank::SIX => 6,
+            Rank::SEVEN => 7,
+            Rank::EIGHT => 8,
+            Rank::NINE => 9,
+            Rank::TEN => 10,
+            Rank::JACK => 10,
+            Rank::QUEEN => 10,
+            Rank::KING => 10,
+        };
     }
 
     pub fn random_card() -> Card {
